@@ -9,7 +9,7 @@ app.use(cors());
 
 // Require the database connection
 require('./database');
-console.log("object", h);
+
 
 // Require the Item model (the schema you defined in items.js)
 const Item = require('./model/item');
