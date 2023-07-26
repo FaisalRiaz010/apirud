@@ -1,20 +1,26 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+
 const itemController = require('../controllers/itemscontroller');
 
-// Route to add a new item
-router.post('/items', itemController.addItem);
+// Multer setup for image upload
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() +file.originalname);
+  },
+});
 
-// Route to get all items
+const upload = multer({ storage });
+
+// items routes
+router.post('/items', upload.single('image'),itemController.addItem );
 router.get('/items', itemController.getAllItems);
-
-// Route to get a specific item by ID
-router.get('/items/:id', itemController.getItemById);
-
-// Route to delete an item by ID
+router.get('/items/:id', itemController.getItembyID);
+router.put('/items/:id', upload.single('image'), itemController.updateItem);
 router.delete('/items/:id', itemController.deleteItem);
-
-// Route to update an item by ID
-router.put('/items/:id', itemController.updateItem);
 
 module.exports = router;

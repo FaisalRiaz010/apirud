@@ -1,12 +1,15 @@
 const Item = require('../model/item');
 
-//  add a new item
+
+
+//add item
 exports.addItem = async (req, res) => {
     try {
         const { name, description, price } = req.body;
+        const image = req.file.filename; // Access the filename property of req.file
 
-        // Create a new item by use item
-        const newItem = new Item({ name, description, price });
+        // Create a new item by using the Item model
+        const newItem = new Item({ name, description, price, image});
 
         // Save or insert the new item to the database
         const savedItem = await newItem.save();
@@ -20,8 +23,9 @@ exports.addItem = async (req, res) => {
         res.status(500).json({ error: 'Failed to add item' });
     }
 };
+//get all items 
+//get by id 
 
-// Controller to get all items
 exports.getAllItems = async (req, res) => {
     try {
         // Fetch all items from the database
@@ -35,25 +39,25 @@ exports.getAllItems = async (req, res) => {
     }
 };
 
-// Controller to get a item by ID
-exports.getItemById = async (req, res) => {
+//get by id 
+exports.getItembyID = async (req, res) => {
     try {
         const itemId = req.params.id;
 
-        // Find the item by ID in the database
-        const item = await Item.findById(itemId);
+        // Find  ID and remove it from the database
+        const Items = await Item.findById(itemId);
 
-        if (!item) {
+        if (!Items) {
             return res.status(404).json({ error: 'Item not found' });
         }
 
-        // Send the item as the response
-        res.json(item);
+        res.json(Items);
     } catch (err) {
-        console.error('Error getting item:', err);
-        res.status(500).json({ error: 'Failed to get item' });
+       
+        res.status(500).json({ error: 'Failed to find item' });
     }
 };
+
 
 //  delete an item by ID
 exports.deleteItem = async (req, res) => {
@@ -79,13 +83,14 @@ exports.deleteItem = async (req, res) => {
 // update an item by ID
 exports.updateItem = async (req, res) => {
     try {
+        const image = req.file.filename;
         const itemId = req.params.id;
         const { name, description, price } = req.body;
 
         // Find the ID in the database and update 
         const updatedItem = await Item.findByIdAndUpdate(
             itemId,
-            { name, description, price },
+            { name, description, price,image },
             { new: true }
         );
 

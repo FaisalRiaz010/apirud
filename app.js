@@ -2,7 +2,9 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const mongoose = require('mongoose');
+var bodyParser = require('body-parser')
 
+app.use(bodyParser.json())
 // Middleware to parse JSON data in the request body
 app.use(express.json());
 app.use(cors());
