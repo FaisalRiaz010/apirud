@@ -14,20 +14,19 @@ const storage = multer.diskStorage({
   },
 });
 //for apply the filter on the image file
-const fileFilter=(req,file,cb)=>{
-  console.log("iam working");
-  //for accepting 
-  if(file.minetype==='image/jpg'){
-    console.log("iam working2");
-    cb(null,true);
-  }else{
-    //reject file
-    cb(null,false);
-
+const fileFilter = (req, file, cb) => {
+  // For accepting only 'image/jpg' files
+  if (file.mimetype === 'image/jpeg') {
+    console.log("I am working");
+    cb(null, true);
+  } else {
+    // Reject file
+    cb(null, false);
   }
-}
+};
 
-const upload = multer({ storage });
+
+const upload = multer({ storage,fileFilter });
 
 // items routes
 router.post('/items', upload.single('image'),itemController.addItem );

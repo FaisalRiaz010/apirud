@@ -1,15 +1,16 @@
 const Item = require('../model/item');
+const {filename}= require('../Routes/itemsRoutes')
 
 
 
 //add item
 exports.addItem = async (req, res) => {
     try {
-        const { name, description, price } = req.body;
+        const { token_id,name, description, price } = req.body;
         const image = req.file.filename; // Access the filename property of req.file
 
         // Create a new item by using the Item model
-        const newItem = new Item({ name, description, price, image});
+        const newItem = new Item({token_id, name, description, price, image});
 
         // Save or insert the new item to the database
         const savedItem = await newItem.save();

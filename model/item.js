@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 //create a schema item in db
 
 const itemSchema = new mongoose.Schema({
+    token_id:{
+        type: String,
+        required: true
+    },
     name: {
         type: String,
         required: true
