@@ -13,6 +13,19 @@ const storage = multer.diskStorage({
     cb(null, Date.now() +file.originalname);
   },
 });
+//for apply the filter on the image file
+const fileFilter=(req,file,cb)=>{
+  console.log("iam working");
+  //for accepting 
+  if(file.minetype==='image/jpg'){
+    console.log("iam working2");
+    cb(null,true);
+  }else{
+    //reject file
+    cb(null,false);
+
+  }
+}
 
 const upload = multer({ storage });
 
