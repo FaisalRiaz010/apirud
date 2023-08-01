@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
 //for apply the filter on the image file
 const fileFilter = (req, file, cb) => {
   // For accepting only 'image/jpg' files
-  if (file.mimetype === 'image/jpeg') {
+  if (file.mimetype === 'image/jpeg' || file.minetype === 'image/png') {
     console.log("I am working");
     cb(null, true);
   } else {
@@ -25,8 +25,25 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
+// Function to filter file size not working yet
+const fileSizeFilter = (req, file, cb) => {
+  // Define the maximum allowed file size (e.g., 5MB)
+  const maxSizeBytes = 5 * 1024 * 1024; // 5MB in bytes
 
-const upload = multer({ storage,fileFilter });
+  if (file.size <= maxSizeBytes) {
+    // Accept the file if its size is within the limit
+    cb(null, true);
+  } else {
+    // Reject the file if it exceeds the size limit
+    cb(new Error('File size exceeds the limit'));
+  }
+};
+
+
+
+
+
+const upload = multer({ storage,fileFilter,fileSizeFilter });
 
 // items routes
 router.post('/items', upload.single('image'),itemController.addItem );

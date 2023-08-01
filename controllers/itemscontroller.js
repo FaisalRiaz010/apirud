@@ -25,7 +25,7 @@ exports.addItem = async (req, res) => {
     }
 };
 //get all items 
-//get by id 
+
 
 exports.getAllItems = async (req, res) => {
     try {
